@@ -1,0 +1,105 @@
+{
+  "name": "@bond-london/gatsby-graphql-typegen",
+  "sideEffects": false,
+  "version": "0.0.0",
+  "description": "Configurable graphql typegen for gatsby",
+  "author": "Nick Randell <nick.randell@bond.fi>",
+  "license": "MIT",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "gatsby-plugin-typescript",
+    "typescript",
+    "codegen",
+    "typings"
+  ],
+  "repository": {
+    "url": "https://github.com/bond-london/gatsby-graphql-typegen"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc --outDir dist",
+    "dev": "tsc -w --outDir dist",
+    "prepare": "cross-env NODE_ENV=production yarn run lint && yarn run build && husky install",
+    "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx}\"",
+    "lint": "eslint --max-warnings 0 \"**/*.{js,jsx,ts,tsx}\"",
+    "release": "release-it"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.0",
+    "@commitlint/config-conventional": "^17.0.0",
+    "@release-it/conventional-changelog": "^5.0.0",
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "^17.0.36",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.15.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "gatsby": "^4.15",
+    "husky": "^8.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
+    "release-it": "^15.0.0",
+    "typescript": "^4.6.4",
+    "@graphql-codegen/core": "^2.3.0",
+    "@graphql-codegen/typescript": "^2.3.0",
+    "@graphql-codegen/typescript-operations": "^2.2.0"
+  },
+  "peerDependencies": {
+    "gatsby": "^4.15",
+    "@graphql-codegen/core": "^2.3.0",
+    "@graphql-codegen/typescript": "^2.3.0",
+    "@graphql-codegen/typescript-operations": "^2.2.0"
+  },
+  "optionalDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "dependencies": {},
+  "release-it": {
+    "git": {
+      "tagName": "v${version}",
+      "commitMessage": "chore: release v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "npm": {
+      "publish": true
+    },
+    "hooks": {
+      "before:init": [
+        "yarn run format",
+        "yarn run prepare"
+      ]
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
+        "ignoreRecommendedBump": true,
+        "preset": {
+          "name": "conventionalcommits",
+          "types": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            },
+            {}
+          ]
+        }
+      }
+    }
+  }
+}
