@@ -1,7 +1,7 @@
 {
   "name": "@bond-london/gatsby-graphql-typegen",
   "sideEffects": false,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Configurable graphql typegen for gatsby",
   "author": "Nick Randell <nick.randell@bond.fi>",
   "license": "MIT",
