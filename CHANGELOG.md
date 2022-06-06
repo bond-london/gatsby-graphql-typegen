@@ -1,5 +1,12 @@
 
 
+### [0.0.4](https://github.com/bond-london/gatsby-graphql-typegen/compare/v0.0.3...v0.0.4) (2022-06-06)
+
+
+### Bug Fixes
+
+* don't skip typename ([af8bbe5](https://github.com/bond-london/gatsby-graphql-typegen/commit/af8bbe5bf85f3c0b973ab68054ed5245a2921e79))
+
 ### [0.0.3](https://github.com/bond-london/gatsby-graphql-typegen/compare/v0.0.2...v0.0.3) (2022-06-01)
 
 ### 0.0.2 (2022-06-01)
