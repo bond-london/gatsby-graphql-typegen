@@ -1,5 +1,12 @@
 
 
+### [1.0.1](https://github.com/bond-london/gatsby-graphql-typegen/compare/v0.0.4...v1.0.1) (2022-06-08)
+
+
+### Features
+
+* add more configuration ([3e245d7](https://github.com/bond-london/gatsby-graphql-typegen/commit/3e245d7e31932ca2b6002e6d08ea52f7d2f099ed))
+
 ### [0.0.4](https://github.com/bond-london/gatsby-graphql-typegen/compare/v0.0.3...v0.0.4) (2022-06-06)
 
 
