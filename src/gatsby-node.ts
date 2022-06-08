@@ -14,8 +14,10 @@ import {
 import { writeTypeScriptTypes } from "./ts-codegen";
 import { AnyEventObject } from "xstate";
 
-interface Options {
+export interface Options {
   gatsbyTypesFile: string;
+  additionalTypescriptFiles: string[];
+  configOptions: { [key: string]: unknown };
 }
 
 async function schemaTypegen(
@@ -58,12 +60,7 @@ async function definitionsTypegen(
   try {
     await writeGraphQLSchema(directory, schema);
     await writeGraphQLFragments(directory, definitions);
-    await writeTypeScriptTypes(
-      directory,
-      options.gatsbyTypesFile,
-      schema,
-      definitions
-    );
+    await writeTypeScriptTypes(directory, options, schema, definitions);
   } catch (err) {
     reporter.panicOnBuild({
       id: `12100`,
@@ -118,5 +115,12 @@ export function pluginOptionsSchema(args: PluginOptionsSchemaArgs) {
     gatsbyTypesFile: Joi.string()
       .description("Location of the gatsby types file")
       .default("src/gatsby-types.d.ts"),
+    additionalTypescriptFiles: Joi.array()
+      .items(Joi.string())
+      .description("Additional typescript files to read in")
+      .default([]),
+    configOptions: Joi.object()
+      .description("Additional configuration options for codegen options")
+      .default({}),
   });
 }

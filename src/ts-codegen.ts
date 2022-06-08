@@ -12,6 +12,7 @@ import {
   filterTargetDefinitions,
   stabilizeSchema,
 } from "gatsby/dist/utils/graphql-typegen/utils";
+import { Options } from "./gatsby-node";
 
 const NAMESPACE = `Queries`;
 
@@ -45,7 +46,7 @@ const DEFAULT_TYPESCRIPT_OPERATIONS_CONFIG: Readonly<TypeScriptDocumentsPluginCo
 
 export async function writeTypeScriptTypes(
   directory: IStateProgram["directory"],
-  outputPath: string,
+  options: Options,
   schema: GraphQLSchema,
   definitions: Map<string, IDefinitionMeta>
 ): Promise<void> {
@@ -89,7 +90,7 @@ export async function writeTypeScriptTypes(
     ],
   };
 
-  const filename = join(directory, outputPath);
+  const filename = join(directory, options.gatsbyTypesFile);
 
   let gatsbyNodeDocuments: Array<Types.DocumentFile> = [];
   // The loadDocuments + CodeFileLoader looks for graphql(``) functions inside the gatsby-node.ts files
@@ -97,7 +98,11 @@ export async function writeTypeScriptTypes(
   // TODO: This codepath can be made obsolete if Gatsby itself already places the queries inside gatsby-node into the `definitions`
   try {
     gatsbyNodeDocuments = await loadDocuments(
-      [`./gatsby-node.ts`, `./plugins/**/gatsby-node.ts`],
+      [
+        `./gatsby-node.ts`,
+        `./plugins/**/gatsby-node.ts`,
+        ...options.additionalTypescriptFiles,
+      ],
       {
         loaders: [
           new CodeFileLoader({
@@ -132,13 +137,16 @@ export async function writeTypeScriptTypes(
     documents: documents.concat(gatsbyNodeDocuments),
     filename,
     config: {
-      namingConvention: {
-        typeNames: `keep`,
-        enumValues: `keep`,
-        transformUnderscore: false,
+      ...{
+        namingConvention: {
+          typeNames: `keep`,
+          enumValues: `keep`,
+          transformUnderscore: false,
+        },
+        addUnderscoreToArgsType: true,
+        skipTypename: true,
       },
-      addUnderscoreToArgsType: true,
-      skipTypename: false,
+      ...options.configOptions,
     },
   };
 
