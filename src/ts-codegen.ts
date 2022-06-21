@@ -10,6 +10,7 @@ import { loadDocuments } from "@graphql-tools/load";
 import { IDefinitionMeta, IStateProgram } from "gatsby/dist/redux/types";
 import {
   filterTargetDefinitions,
+  sortDefinitions,
   stabilizeSchema,
 } from "gatsby/dist/utils/graphql-typegen/utils";
 import { Options } from "./gatsby-node";
@@ -112,6 +113,7 @@ export async function writeTypeScriptTypes(
             },
           }),
         ],
+        sort: true,
       }
     );
   } catch (e) {
@@ -120,15 +122,17 @@ export async function writeTypeScriptTypes(
 
   const documents: Array<Types.DocumentFile> = [
     ...filterTargetDefinitions(definitions).values(),
-  ].map((definitionMeta) => {
-    return {
-      document: {
-        kind: Kind.DOCUMENT,
-        definitions: [definitionMeta.def],
-      },
-      hash: definitionMeta.hash.toString(),
-    };
-  });
+  ]
+    .sort(sortDefinitions)
+    .map((definitionMeta) => {
+      return {
+        document: {
+          kind: Kind.DOCUMENT,
+          definitions: [definitionMeta.def],
+        },
+        hash: definitionMeta.hash.toString(),
+      };
+    });
 
   const codegenOptions: Omit<Types.GenerateOptions, "plugins" | "pluginMap"> = {
     // @ts-ignore - Incorrect types
